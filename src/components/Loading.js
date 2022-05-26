@@ -1,13 +1,11 @@
-import { Loader, ThreeDots } from 'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner'
 
-export default function Loader(){
-    return(
+export default function Loading() {
+    return (
         <ThreeDots
-        color='blue'
-        height={100}
-        width={100}>
-
+            color="#FFFFFF"
+            height={45}
+            width={100}>
         </ThreeDots>
-
     )
 }

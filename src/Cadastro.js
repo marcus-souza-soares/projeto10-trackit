@@ -1,22 +1,90 @@
-
+import axios from 'axios'
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react'
 
-export default function Cadastro(){
+import Loading from "./components/Loading";
 
-    
-    return(
+export default function Cadastro() {
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [image, setImage] = useState('');
+
+    const [loading, setLoading] = useState(false)
+    const [desativado, setDesativado] = useState(false)
+
+    const cadastrar = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        setDesativado("true")
+        setTimeout(() => {
+            let dados = {
+                email,
+                name,
+                image,
+                password
+            }
+            console.log(dados)
+            const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', dados);
+
+            promise.then((res) => {
+                console.log(res.data)
+                setLoading(false)
+                setDesativado(false)
+                navigate("/")
+            })
+            promise.catch(() => {
+                console.log('dados não encontrados')
+                setLoading(false)
+                setDesativado(false)
+            })
+        }, 2000)
+    }
+
+    return (
         <>
             <Logo>
                 <img src="imgs/logo.png" alt="" />
             </Logo>
             <Formulario>
-                <form>
-                    <input type="email" name="email" placeholder="email" required />
-                    <input type="password" name="senha" placeholder="senha" required />
-                    <input type="text" name="senha" placeholder="nome" required />
-                    <input type='image' name="senha" placeholder="foto" required />
-                    <button type="submit">Entrar</button>
+                <form onSubmit={cadastrar}>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        disabled={desativado}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="senha"
+                        placeholder="senha"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        disabled={desativado}
+                        required />
+                    <input
+                        type="text"
+                        name="senha"
+                        placeholder="nome"
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        disabled={desativado}
+                        required />
+                    <input
+                        type="url"
+                        name="senha"
+                        placeholder="foto"
+                        onChange={(e) => setImage(e.target.value)}
+                        value={image}
+                        disabled={desativado}
+                        required />
+                    <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
                 </form>
                 <Link to='/'>
                     <h2>Já tem uma conta? Faça login!</h2>
@@ -55,6 +123,7 @@ const Formulario = styled.div`
         border: 1px solid #D5D5D5;
         border-radius: 5px;
         margin-bottom: 10px;
+        padding-left: 10px;
 
         &::placeholder{
             font-size: 20px;
@@ -71,6 +140,9 @@ const Formulario = styled.div`
         background: #52B6FF;
         border-radius: 5px;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     h2{
         margin-top: 10px;
