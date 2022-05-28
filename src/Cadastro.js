@@ -19,16 +19,16 @@ export default function Cadastro() {
     const cadastrar = (e) => {
         e.preventDefault();
         setLoading(true)
-        setDesativado("true")
+        setDesativado(true)
         setTimeout(() => {
-            let dados = {
+            let body = {
                 email,
                 name,
                 image,
                 password
             }
-            console.log(dados)
-            const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', dados);
+            console.log(body)
+            const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', body);
 
             promise.then((res) => {
                 console.log(res.data)

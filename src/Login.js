@@ -1,13 +1,15 @@
 import styled from "styled-components";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useContext, useState } from "react";
+import "./Login.css"
 
 import Loading from "./components/Loading";
 import UserContext from "./UserContext";
 
 export default function Login() {
-    const { token, setToken } = useContext(UserContext);
+    const navigate = useNavigate();
+    const { setConfig } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ export default function Login() {
     const logar = (e) => {
         e.preventDefault();
         setLoading(true)
-        setDesativado("true")
+        setDesativado(true)
         setTimeout(() => {
             let dados = {
                 email,
@@ -29,12 +31,12 @@ export default function Login() {
             promise.then((res) => {
                 console.log(res.data)
                 setDesativado(false)
-                setToken({
+                setConfig({
                     headers: {
                         Authorization: `Bearer ${res.data.token}`
                     }
                 })
-
+                navigate('/hoje')
             });
 
             promise.catch(() => {
@@ -43,47 +45,48 @@ export default function Login() {
                 setDesativado(false)
             })
         }, 2000)
-
-
     }
 
     return (
         <>
-            <Logo>
-                <img src="imgs/logo.png" alt="" />
-            </Logo>
-            <Formulario>
-                <form onSubmit={logar}>
-                    <input
-                        type="email" name="email"
-                        placeholder="email" onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        disabled={desativado}
-                        required />
-                    <input
-                        type="password"
-                        name="senha"
-                        placeholder="senha"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        disabled={desativado}
-                        required />
-                    <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
-                </form>
-                <Link to='/cadastro'>
-                    <h2>Não tem uma conta? Cadastre-se!</h2>
-                </Link>
-            </Formulario>
+            <Container>
+                <Logo>
+                    <img src="imgs/logo.png" alt="" />
+                </Logo>
+                <Formulario>
+                    <form onSubmit={logar}>
+                        <input
+                            type="email" name="email"
+                            placeholder="email" onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            disabled={desativado}
+                            required />
+                        <input
+                            type="password"
+                            name="senha"
+                            placeholder="senha"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            disabled={desativado}
+                            required />
+                        <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
+                    </form>
+                    <Link to='/cadastro'>
+                        <h2>Não tem uma conta? Cadastre-se!</h2>
+                    </Link>
+                </Formulario>
+            </Container>
         </>
     )
 }
-
+const Container = styled.div`
+    height: 100%;
+    padding-top: 200px;
+`
 const Logo = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 200px;
-
     img{
         width: 180px;
         height: 180px;

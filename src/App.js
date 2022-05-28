@@ -1,25 +1,31 @@
-import GlobalStyle from './GlobalStyle';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import UserContext from './UserContext';
 import Login from './Login';
 import Cadastro from "./Cadastro";
 import { useState } from 'react';
+import Hoje from './Hoje';
+import Habitos from './Habitos';
+import Historico from './Historico';
+
 
 export default function App() {
-    const [token, setToken] = useState();
+    const [config, setConfig] = useState();
 
     return (
         <>
-            <GlobalStyle />
-            <UserContext.Provider value={{ token, setToken }}>
-                <BrowserRouter>
+            <BrowserRouter>
+                <UserContext.Provider value={{ config, setConfig }}>
                     <Routes>
-                        <Route path='/' element={<Login />} />
-                        <Route path='/cadastro' element={<Cadastro />} />
+                        <Route exact path="/" element={<Login />} />
+                        <Route exact path="/cadastro" element={<Cadastro />} />
+                        <Route exact path="/hoje" element={<Hoje />} />
+                        <Route exact path="/habitos" element={<Habitos />} />
+                        <Route exact path="/historico" element={<Historico />} />
                     </Routes>
-                </BrowserRouter>
-            </UserContext.Provider>
+                </UserContext.Provider>
+            </BrowserRouter>
+
         </>
     )
 }
