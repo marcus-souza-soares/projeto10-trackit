@@ -9,8 +9,8 @@ import Footer from "./components/Footer";
 
 export default function Hoje(){
     //token
-    const { config } = useContext(UserContext);
-    const [dados, setDados ] = useState();
+    const { config, porcentagem, setPorcentagem } = useContext(UserContext);
+    const [dados, setDados] = useState([])
 
     const week = 
     [{ dayId: 0, day: 'Domingo'},
@@ -30,37 +30,55 @@ export default function Hoje(){
             today =  week[i].day;
         }
     }
+    let contador = 0;
+    const [render, setRender] = useState(false);
     //buscar tokens do servidor
     useEffect(() => {
-        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config)
+        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', config)
         promise.then(res => {
             console.log(res.data);
-            setDados(res.data);
-            console.log(config)
+            setDados(res.data)
         })
-    },[config])
+        promise.catch(() => alert('Faça o login novamente!'))
+    },[config,render])
 
+    if (dados.length > 1){
+        for(let i = 0; i < dados.length; i++){
+            if(dados[i].done){
+                contador++;
+            }
+        }
+        console.log(contador)
+        setPorcentagem(Math.floor(contador/dados.length*100));
+    }
+    
     return (
         <>
             <Header/>
             <Container>
                 <Dia>{today}, {now.getDate()}/{now.getMonth() + 1 < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1}</Dia>
-                <Status>abbb</Status>
+                <Status>{contador > 0 ? <h2 style={{color: "green"}}>{` ${porcentagem}% dos hábitos concluídos`}</h2> : "Nenhum hábito concluido ainda"}</Status>
                 <Habitos>
-                    <TodayHab />
-                    <TodayHab />
-                    <TodayHab />
+                    {dados.map((habit, index) => <TodayHab 
+                    key={index} 
+                    dados={habit} 
+                    contador={contador}
+                    config={config}
+                    render={render}
+                    setRender={setRender}/>)}
                 </Habitos>
             </Container>
-            <Footer />
+            <Footer porcentagem={porcentagem}/>
 
         </>
     )
 }
 const Container = styled.div`
+    margin-top: 70px;
     background-color: #F2F2F2;
     padding: 40px 20px;
     height: 100%;
+    
 `
 const Dia = styled.h1`
     font-weight: 400;
@@ -74,6 +92,6 @@ const Status = styled.h2`
 `
 const Habitos = styled.div`
     background-color: #F2F2F2;
-    margin-top: 50px;
-    margin-bottom: 80px;
+    margin-top: 30px;
+    padding-bottom: 100px;
 `

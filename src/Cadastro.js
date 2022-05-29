@@ -46,60 +46,65 @@ export default function Cadastro() {
 
     return (
         <>
-            <Logo>
-                <img src="imgs/logo.png" alt="" />
-            </Logo>
-            <Formulario>
-                <form onSubmit={cadastrar}>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        disabled={desativado}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="senha"
-                        placeholder="senha"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        disabled={desativado}
-                        required />
-                    <input
-                        type="text"
-                        name="senha"
-                        placeholder="nome"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                        disabled={desativado}
-                        required />
-                    <input
-                        type="url"
-                        name="senha"
-                        placeholder="foto"
-                        onChange={(e) => setImage(e.target.value)}
-                        value={image}
-                        disabled={desativado}
-                        required />
-                    <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
-                </form>
-                <Link to='/'>
-                    <h2>Já tem uma conta? Faça login!</h2>
-                </Link>
-            </Formulario>
+            <Container>
+                <Logo>
+                    <img src="imgs/logo.png" alt="" />
+                </Logo>
+                <Formulario>
+                    <form onSubmit={cadastrar}>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            disabled={desativado}
+                            required
+                        />
+                        <input
+                            type="password"
+                            name="senha"
+                            placeholder="senha"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            disabled={desativado}
+                            required />
+                        <input
+                            type="text"
+                            name="senha"
+                            placeholder="nome"
+                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                            disabled={desativado}
+                            required />
+                        <input
+                            type="url"
+                            name="senha"
+                            placeholder="foto"
+                            onChange={(e) => setImage(e.target.value)}
+                            value={image}
+                            disabled={desativado}
+                            required />
+                        <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
+                    </form>
+                    <Link to='/'>
+                        <h2>Já tem uma conta? Faça login!</h2>
+                    </Link>
+                </Formulario>
+            </Container>
         </>
     )
 }
+const Container = styled.div`
+    height: 100%;
+    background-color: #FFFFFF;
+    padding-top: 180px;
+`
 
 const Logo = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 200px;
-
     img{
         width: 180px;
         height: 180px;
@@ -124,6 +129,7 @@ const Formulario = styled.div`
         border-radius: 5px;
         margin-bottom: 10px;
         padding-left: 10px;
+        background-color: ${props => !props.desativado ? '#FFFFFF' : "#F2F2F2"};
 
         &::placeholder{
             font-size: 20px;
@@ -143,6 +149,7 @@ const Formulario = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        opacity: ${props => props.desativado ? 0.6 : 1};;
     }
     h2{
         margin-top: 10px;

@@ -3,13 +3,11 @@ import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import styled from 'styled-components'
 
-export default function ProgressBar() {
-  const percentage = 90
-  ;
+export default function ProgressBar({porcentagem}) {
   return ( 
     <Container>
       <CircularProgressbar
-        value={percentage}
+        value={porcentagem}
         text='Hoje'
         background
         backgroundPadding={6}

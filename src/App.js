@@ -11,11 +11,12 @@ import Historico from './Historico';
 
 export default function App() {
     const [config, setConfig] = useState();
+    const [porcentagem, setPorcentagem] = useState(0);
 
     return (
         <>
             <BrowserRouter>
-                <UserContext.Provider value={{ config, setConfig }}>
+                <UserContext.Provider value={{ config, setConfig, porcentagem, setPorcentagem }}>
                     <Routes>
                         <Route exact path="/" element={<Login />} />
                         <Route exact path="/cadastro" element={<Cadastro />} />

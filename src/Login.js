@@ -53,7 +53,7 @@ export default function Login() {
                 <Logo>
                     <img src="imgs/logo.png" alt="" />
                 </Logo>
-                <Formulario>
+                <Formulario desativado={desativado}>
                     <form onSubmit={logar}>
                         <input
                             type="email" name="email"
@@ -111,6 +111,7 @@ const Formulario = styled.div`
         border-radius: 5px;
         margin-bottom: 10px;
         padding-left: 10px;
+        background-color: ${props => !props.desativado ? '#FFFFFF' : "#F2F2F2"};
 
         &::placeholder{
             font-size: 20px;
@@ -130,6 +131,7 @@ const Formulario = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        opacity: ${props => props.desativado ? 0.6 : 1};;
     }
     h2{
         margin-top: 10px;

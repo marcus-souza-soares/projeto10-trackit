@@ -1,17 +1,15 @@
 import ProgressBar from "./ProgressBar";
 import styled from "styled-components";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function Footer() {
-    const navigate = useNavigate();
+export default function Footer({porcentagem}) {
     return (
-
         <>
             <Alt>
                 <Link to="/habitos" style={{ textDecoration: 'none', color: '#52B6FF' }} >
                     <h1>Hábitos</h1>
                 </Link>
-                <Link to="/hoje"><ProgressBar /></Link>
+                <Link to="/hoje"><ProgressBar porcentagem={porcentagem}/></Link>
                 <Link to='/historico' style={{ textDecoration: 'none', color: '#52B6FF' }}>
                     <h1>Histórico</h1>
                 </Link>
