@@ -17,6 +17,7 @@ export default function Habito({dados, contador, config, render, setRender}) {
         }else{
             contador--;
             const uncheck = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/uncheck`, {}, config);
+            uncheck.then(() => console.log('desmarcado'))
             setDone(true);
         }
         setRender(!render)

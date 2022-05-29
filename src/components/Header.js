@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+
+import UserContext from "../UserContext";
 
 export default function Header() {
+    const { image } = useContext(UserContext);
     const navigate = useNavigate();
     return (
         <Top>
             <h1>TrackIt</h1>
-            <img src="imgs/bobesponja.png" alt="" onClick={() => navigate('/')}/>
+            <img src={image} alt="" onClick={() => navigate('/')}/>
         </Top>
     )
 }
@@ -34,5 +38,6 @@ const Top = styled.div`
     img{
         width: 50px;
         height: 50px;
+        border-radius: 50%;
     }
 `

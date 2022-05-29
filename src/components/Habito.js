@@ -9,8 +9,6 @@ export default function Habito({ dados,setRender,render }) {
     const { config } = useContext(UserContext);
     function Dia({ children, indice, ids }) {
         let cor = false;
-        console.log(indice)
-        console.log(ids)
         for(let i = 0; i < ids.length; i++){
             if (ids[i] === indice){
                 cor = true;

@@ -1,13 +1,14 @@
 import styled from "styled-components"
-import { useState } from "react";
 import axios from 'axios'
 
 import DiaSelecionado from "./minicomponents/DiaSelecionado"
 
 export default function Novohabito({display, setDisplay, config, render, setRender, name, setName, days, setDays}){
     const lista = ['D','S','T','Q','Q','S','S']
+    let desativado = false;
 
     function Salvar(){
+        desativado = true;
         const body = {
             name, days
         }
@@ -20,7 +21,10 @@ export default function Novohabito({display, setDisplay, config, render, setRend
         }
         console.log(body)
         const promisse = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', body, config)
-        promisse.then(res => console.log(res.data))
+        promisse.then(res => {
+            console.log(res.data)
+            desativado = false;
+        })
         promisse.catch((res)=> alert('Faça o login novamente!'))
         setDisplay('none')
         setRender(!render)
@@ -32,7 +36,7 @@ export default function Novohabito({display, setDisplay, config, render, setRend
             <input type="text" placeholder="nome do hábito" onChange={(e) => setName(e.target.value)} value={name} />
             <div className="dias">
                 {lista.map((dia, index) => (
-                    <DiaSelecionado key={index} indice={index} days={days} setDays={setDays}>
+                    <DiaSelecionado key={index} indice={index} days={days} setDays={setDays} desativado={desativado}>
                         <h1>{dia}</h1>
                     </DiaSelecionado>
                 ))}

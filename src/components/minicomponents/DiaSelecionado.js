@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useState } from 'react'
 
-export default function DiaSelecionado({ children, indice, days, setDays }){
+export default function DiaSelecionado({ children, indice, days, setDays, desativado }){
     const [selecionado, setSelecionado] = useState(false);
 
     function Selecionar(){
@@ -15,13 +15,13 @@ export default function DiaSelecionado({ children, indice, days, setDays }){
     }
 
     return(
-       <Container selecionado={selecionado} onClick={Selecionar}>
+       <Container selecionado={selecionado} onClick={Selecionar} desativado={desativado}>
            { children }
        </Container> 
     )
 }
 
-const Container = styled.div`
+const Container = styled.button`
     width: 30px;
     height: 30px;
     color: ${props => props.selecionado ? '#FFFFFF' : '#DBDBDB'};

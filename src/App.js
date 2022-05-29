@@ -12,11 +12,12 @@ import Historico from './Historico';
 export default function App() {
     const [config, setConfig] = useState();
     const [porcentagem, setPorcentagem] = useState(0);
+    const [image, setImage] = useState('')
 
     return (
         <>
             <BrowserRouter>
-                <UserContext.Provider value={{ config, setConfig, porcentagem, setPorcentagem }}>
+                <UserContext.Provider value={{ config, setConfig, porcentagem, setPorcentagem, image, setImage }}>
                     <Routes>
                         <Route exact path="/" element={<Login />} />
                         <Route exact path="/cadastro" element={<Cadastro />} />

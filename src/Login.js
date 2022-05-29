@@ -8,6 +8,7 @@ import Loading from "./components/Loading";
 import UserContext from "./UserContext";
 
 export default function Login() {
+    const { setImage } = useContext(UserContext);
     const navigate = useNavigate();
     const { setConfig } = useContext(UserContext);
 
@@ -37,6 +38,7 @@ export default function Login() {
                     }
                 })
                 navigate('/hoje')
+                setImage(res.data.image)
             });
 
             promise.catch(() => {

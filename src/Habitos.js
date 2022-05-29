@@ -26,7 +26,7 @@ export default function Habitos() {
             setMeus_habitos(res.data)
         })
         promisse.catch(() => alert('Faça o login novamente!'))
-    }, [config, render])
+    }, [config, display, render])
 
 
     return (
@@ -39,9 +39,10 @@ export default function Habitos() {
                 </Novo>
 
                 {display === 'block' ? <Novohabito 
-                setDisplay={setDisplay} 
+                 
                 config={config} 
                 display={display} 
+                setDisplay={setDisplay}
                 render={render} 
                 setRender={setRender}
                 name={name}
