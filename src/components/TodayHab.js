@@ -19,6 +19,7 @@ export default function Habito({dados, config, render, setRender,setConfig}) {
                 console.log(res.data)
                 setDone(true);
                 setRender(!render)
+                setConfig({...config})
             })
             
         }else{
