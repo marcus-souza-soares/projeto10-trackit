@@ -37,7 +37,7 @@ export default function Cadastro() {
                 navigate("/")
             })
             promise.catch(() => {
-                console.log('dados não encontrados')
+                alert('Dados já estão em uso!')
                 setLoading(false)
                 setDesativado(false)
             })
@@ -50,7 +50,7 @@ export default function Cadastro() {
                 <Logo>
                     <img src="imgs/logo.png" alt="" />
                 </Logo>
-                <Formulario>
+                <Formulario desativado={desativado}>
                     <form onSubmit={cadastrar}>
                         <input
                             type="email"
@@ -85,7 +85,7 @@ export default function Cadastro() {
                             value={image}
                             disabled={desativado}
                             required />
-                        <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Entrar'}</button>
+                        <button type="submit" disabled={desativado}>{loading ? <Loading></Loading> : 'Cadastrar'}</button>
                     </form>
                     <Link to='/'>
                         <h2>Já tem uma conta? Faça login!</h2>

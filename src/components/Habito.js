@@ -24,10 +24,13 @@ export default function Habito({ dados,setRender,render }) {
         let resultado = window.confirm("Tem certeza que deseja apagar? ");
         if (resultado){
             const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}`,config);
-            promise.then(() => console.log('removido') )
+            promise.then(() => {
+                console.log('removido')
+                setRender(!render)
+            } )
             promise.catch(()=> console.log('não removido'))
-            setRender(!render)
         }
+        setRender(!render)
     }
 
     return (    

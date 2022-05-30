@@ -27,6 +27,7 @@ export default function Habitos() {
         })
         promisse.catch(() => alert('Faça o login novamente!'))
     }, [config, display, render])
+    
 
 
     return (
@@ -48,7 +49,8 @@ export default function Habitos() {
                 name={name}
                 setName={setName}
                 days={days}
-                setDays={setDays} /> : null}
+                setDays={setDays}
+                /> : null}
 
                 <Habitoslist>
                     {meus_habitos.map((item, index) => <Habito key={index} dados={item} render={render} setRender={setRender}></Habito>)}

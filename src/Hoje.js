@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 
 export default function Hoje(){
     //token
-    const { config, porcentagem, setPorcentagem } = useContext(UserContext);
+    const { config, setConfig, porcentagem, setPorcentagem } = useContext(UserContext);
     const [dados, setDados] = useState([])
 
     const week = 
@@ -42,14 +42,16 @@ export default function Hoje(){
         promise.catch(() => alert('Faça o login novamente!'))
     },[config,render])
 
-    if (dados.length > 1){
+    if (dados.length > 0){
         for(let i = 0; i < dados.length; i++){
             if(dados[i].done){
                 contador++;
             }
         }
         console.log(contador)
-        setPorcentagem(Math.floor(contador/dados.length*100));
+        setPorcentagem(Math.ceil((contador/dados.length)*100));
+    } else if (dados.length === 0){
+        setPorcentagem(0)
     }
     
     return (
@@ -65,7 +67,8 @@ export default function Hoje(){
                     contador={contador}
                     config={config}
                     render={render}
-                    setRender={setRender}/>)}
+                    setRender={setRender}
+                    setConfig={setConfig}/>)}
                 </Habitos>
             </Container>
             <Footer porcentagem={porcentagem}/>

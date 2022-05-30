@@ -2,32 +2,45 @@ import styled from 'styled-components'
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function Habito({dados, contador, config, render, setRender}) {
+export default function Habito({dados, config, render, setRender,setConfig}) {
 
     const [done, setDone] = useState(dados.done);
+    const [atual, setAtual] = useState(dados.currentSequence)
+    const [record, setRecord] = useState(dados.highestSequence)
 
     function Marcar(){
         console.log(config)
+        setConfig({...config})
         if (dados.done === false){
-            contador++;
+            
             const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/check`, {},config);
 
-            promise.then(res => console.log(res.data))
-            setDone(true);
+            promise.then(res => {
+                console.log(res.data)
+                setDone(true);
+                setRender(!render)
+            })
+            
         }else{
-            contador--;
+            
             const uncheck = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/uncheck`, {}, config);
-            uncheck.then(() => console.log('desmarcado'))
-            setDone(true);
+            uncheck.then(() => {
+                console.log('desmarcado')
+                setDone(false);
+                setRender(!render)
+            })
+            
         }
-        setRender(!render)
+        
+        setAtual(dados.currentSequence)
+        setRecord(dados.highestSequence)
     }
     return (
         <Container >
             <div className='texto'>
                 <h1>{dados.name}</h1>
-                <div><h2>Sua sequencia atual: <Atual status={done}>{dados.currentSequence} dias</Atual></h2></div>
-                <div><h2>Seu recorde: <Record status={done} atual={dados.currentSequence} record={dados.highestSequence}>{dados.highestSequence} dias</Record></h2></div>
+                <div><h2>Sua sequencia atual: <Atual status={done}>{atual} dias</Atual></h2></div>
+                <div><h2>Seu recorde: <Record status={done} atual={atual} record={record}>{record} dias</Record></h2></div>
             </div>
             <Check status={done} onClick={Marcar}>
                 <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
