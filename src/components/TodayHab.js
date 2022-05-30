@@ -16,25 +16,25 @@ export default function Habito({dados, config, render, setRender,setConfig}) {
             const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/check`, {},config);
 
             promise.then(res => {
-                console.log(res.data)
+                console.log(res.data);
                 setDone(true);
-                setRender(!render)
+                setRender(!render);
                 setConfig({...config})
+                setAtual(atual);
+                setRecord(record);
             })
             
         }else{
-            
             const uncheck = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/uncheck`, {}, config);
             uncheck.then(() => {
-                console.log('desmarcado')
+                console.log('desmarcado');
                 setDone(false);
-                setRender(!render)
+                setRender(!render);
+                setConfig({...config});
+                setAtual(atual);
+                setRecord(record);
             })
-            
         }
-        
-        setAtual(dados.currentSequence)
-        setRecord(dados.highestSequence)
     }
     return (
         <Container >
