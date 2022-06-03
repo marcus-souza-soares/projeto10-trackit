@@ -63,7 +63,8 @@ export default function Hoje(){
                 <Habitos>
                     {dados.map((habit, index) => <TodayHab 
                     key={index} 
-                    dados={habit} 
+                    dados={habit}
+                    setDados={setDados} 
                     contador={contador}
                     config={config}
                     render={render}
