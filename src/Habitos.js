@@ -12,20 +12,37 @@ export default function Habitos() {
     //Variaveis de criação novo hábito
     const [name, setName] = useState("");
     const [days, setDays] = useState([]);
+    //const [dados, setDados] = useState([]);
+    const [porcentagem, setPorcentagem] = useState(0)
+
     //TOken
-    const { config, porcentagem } = useContext(UserContext);
+    const { config } = useContext(UserContext);
     //Para criar um novo hábito
     const [display, setDisplay] = useState('none')
     //Para renderizar a tela
     const [render, setRender] = useState(false);
     const [meus_habitos, setMeus_habitos] = useState([]);
     useEffect(() => {
-        const promisse = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config);
-        promisse.then(res => {
+        const promise1 = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', config);
+        promise1.then(res => {
             console.log(res.data);
             setMeus_habitos(res.data)
         })
-        promisse.catch(() => alert('Faça o login novamente!'))
+        promise1.catch(() => alert('Faça o login novamente!'))
+
+        //Segunda parte do axios para renderizar as porcentagens
+        const promise2 = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', config)
+        promise2.then(res => {
+            let contador = 0;
+            for(let i = 0; i < res.data.length; i++){
+                const dados = res.data;
+                if(dados[i].done){
+                    contador++;
+                    setPorcentagem(contador/res.data.length*100)
+                }
+            }
+        })
+
     }, [config, display, render])
     
 

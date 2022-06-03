@@ -1,12 +1,28 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useContext } from "react";
 
-import UserContext from "./UserContext";
 import styled from "styled-components";
+import UserContext from "./UserContext";
 
 export default function Historico() {
-    const { porcentagem } = useContext(UserContext)
+    const { config } = useContext(UserContext);
+    const [porcentagem, setPorcentagem] = useState(0);
+    useEffect(()=>{
+        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', config)
+        promise.then(res => {
+            let contador = 0;
+            for(let i = 0; i < res.data.length; i++){
+                
+                if(res.data[i].done){
+                    contador++;
+                    setPorcentagem(contador/res.data.length*100)
+                }
+            }
+        })
+    },[])
     return (
         <>
             <Header />
