@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import UserContext from "./UserContext";
 
 import Header from "./components/Header";
 import TodayHab from './components/TodayHab'
 import Footer from "./components/Footer";
+import {request} from "./services/homeService.js"
 
 export default function Hoje(){
     //token
@@ -33,13 +33,14 @@ export default function Hoje(){
     let contador = 0;
     const [render, setRender] = useState(false);
     //buscar tokens do servidor
+    async function initApi() {
+        const getDataToday = await request(config);
+        console.log(getDataToday)
+        setDados(getDataToday); 
+    }
+
     useEffect(() => {
-        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', config)
-        promise.then(res => {
-            console.log(res.data);
-            setDados(res.data)
-        })
-        promise.catch(() => alert('Faça o login novamente!'))
+        initApi();
     },[config,render])
 
     if (dados.length > 0){
@@ -48,7 +49,6 @@ export default function Hoje(){
                 contador++;
             }
         }
-        console.log(contador)
         setPorcentagem(Math.ceil((contador/dados.length)*100));
     } else if (dados.length === 0){
         setPorcentagem(0)
@@ -67,9 +67,7 @@ export default function Hoje(){
                     setDados={setDados} 
                     contador={contador}
                     config={config}
-                    render={render}
-                    setRender={setRender}
-                    setConfig={setConfig}/>)}
+                    initApi={() => initApi()}/>)}
                 </Habitos>
             </Container>
             <Footer porcentagem={porcentagem}/>

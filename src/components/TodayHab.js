@@ -2,42 +2,31 @@ import styled from 'styled-components'
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function Habito({dados, setDados, config, render, setRender,setConfig}) {
+export default function Habito({ dados, config, initApi }) {
 
     const [done, setDone] = useState(dados.done);
     const [atual, setAtual] = useState(dados.currentSequence)
     const [record, setRecord] = useState(dados.highestSequence)
 
-    function Marcar(){
-        const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', config)
-        promise.then(res => {
-            console.log(res.data);
-            setDados(res.data)
-            console.log(config)
-            setConfig({...config})
+    async function renderData() {
+        await initApi();
+        setAtual(dados.currentSequence);
+        setRecord(dados.highestSequence)
+    }
+
+    async function Marcar() {
+        if (dados.done === false) {
+            const { data } = await axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/check`, {}, config);
+            console.log(data)
+            setDone(true);
             
-            if (dados.done === false){
-                
-                const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/check`, {},config);
-    
-                promise.then(res => {
-                    console.log(res.data);
-                    setDone(true);
-                    setRender(!render);
-                    setConfig({...config})
-                })
-                
-            }else{
-                const uncheck = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/uncheck`, {}, config);
-                uncheck.then(() => {
-                    console.log('desmarcado');
-                    setDone(false);
-                    setRender(!render);
-                    setConfig({...config});
-                })
-            }
-        })
-       
+        } else {
+            const { data } = await axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dados.id}/uncheck`, {}, config);
+            console.log(data)
+            setDone(false);
+        }
+        
+        await renderData();
     }
     return (
         <Container >
